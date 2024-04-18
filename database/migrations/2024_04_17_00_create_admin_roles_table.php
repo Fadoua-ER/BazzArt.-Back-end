@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('admin_roles', function (Blueprint $table) {
             $table->id("role_id");
             $table->string("role_name");
+            $table->longText("role_description");
             $table->timestamps();
         });
     }

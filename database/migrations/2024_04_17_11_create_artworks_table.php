@@ -12,7 +12,39 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('artworks', function (Blueprint $table) {
-            $table->id();
+            $table->id("artwork_id");
+            $table->char("artwork_code", 10)->unique(); 
+            $table->string("artwork_name");
+            $table->longText("artwork_description");
+            $table->string("picture");
+            $table->date("creation_date")->default(now());
+            $table->date("publication_date")->default(now());
+            $table->float("price");
+            $table->boolean("validation")->default(false);
+            $table->unsignedBigInteger('owner');
+            $table->unsignedBigInteger('category');
+            $table->unsignedBigInteger('location_country');
+            $table->unsignedBigInteger('location_city');
+            $table->foreign('owner')
+                ->references('artist_id')
+                ->on('profils')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->foreign('category')
+                ->references('category_id')
+                ->on('categories')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->foreign('location_country')
+                ->references('continent_id')
+                ->on('continents')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->foreign('location_city')
+                ->references('city_id')
+                ->on('cities')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

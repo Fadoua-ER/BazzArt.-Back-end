@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('help_comments', function (Blueprint $table) {
             $table->id("helpcomment_id");
+            $table->longText("visitor_comment");
+            $table->date("publication_date")->default(now());
+            $table->unsignedBigInteger('visitor');
+            $table->foreign('visitor')
+                ->references('visitor_id')
+                ->on('visitors')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

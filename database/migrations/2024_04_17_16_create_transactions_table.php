@@ -13,6 +13,26 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id("transaction_id");
+            $table->string('transaction_code')->unique();
+            $table->date("transaction_date")->default(now());
+            $table->unsignedBigInteger('transaction_client');
+            $table->unsignedBigInteger('transaction_artist');
+            $table->unsignedBigInteger('transaction_artwork');
+            $table->foreign('transaction_client')
+                ->references('client_id')
+                ->on('clients')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->foreign('transaction_artist')
+                ->references('artist_id')
+                ->on('profils')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->foreign('transaction_artwork')
+                ->references('artwork_id')
+                ->on('artworks')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

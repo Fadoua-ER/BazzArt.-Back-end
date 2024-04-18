@@ -16,7 +16,12 @@ return new class extends Migration
             $table->string("email")->unique();
             $table->string("phone_number");
             $table->string("picture");
-            $table->string("role");
+            $table->unsignedBigInteger('role');
+            $table->foreign('role')
+                ->references('role_id')
+                ->on('admin_roles')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->string("password");
             $table->timestamps();
         });

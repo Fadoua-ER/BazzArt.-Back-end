@@ -14,17 +14,22 @@ return new class extends Migration
         Schema::create('administration_messages', function (Blueprint $table) {
             $table->id("admin_message_id");
             $table->longtext("message");
-            $table->string("message_type");
+            $table->unsignedBigInteger("message_type");
             $table->unsignedBigInteger('concerned_profil');
             $table->unsignedBigInteger('responsible_admin');
+            $table->foreign('message_type')
+                ->references('type_id')
+                ->on('admin_message_types')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->foreign('concerned_profil')
                 ->references('artist_id')
                 ->on('profils')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->foreign('responsible_admin')
-                ->references('administrators')
-                ->on('admin_id')
+                ->references('admin_id')
+                ->on('administrators')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->timestamps();

@@ -16,7 +16,12 @@ return new class extends Migration
             $table->string('city_name'); 
             $table->string('city_province')->nullable();
             $table->char('postal_code', 10);
-            
+            $table->unsignedBigInteger('country');
+            $table->foreign('country')
+                ->references('country_id')
+                ->on('countries')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

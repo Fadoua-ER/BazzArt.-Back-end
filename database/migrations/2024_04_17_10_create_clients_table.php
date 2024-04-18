@@ -13,6 +13,21 @@ return new class extends Migration
     {
         Schema::create('clients', function (Blueprint $table) {
             $table->id("client_id");
+            $table->string("client_firstname");
+            $table->string("client_lastname");
+            $table->date("client_birthday");
+            $table->string("client_email")->unique();
+            $table->string("client_adresse");
+            $table->string("client_picture")->nullable();
+            $table->unsignedBigInteger('country');
+            $table->foreign('country')
+                ->references('country_id')
+                ->on('countries')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->integer("client_phone_code");
+            $table->bigInteger("client_phone_number")->length(10);
+            $table->string("client_password");
             $table->timestamps();
         });
     }
