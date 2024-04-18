@@ -12,17 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('administrators', function (Blueprint $table) {
-            $table->id("admin_id");
-            $table->string("email")->unique();
-            $table->string("phone_number");
-            $table->string("picture");
+            $table->id('admin_id');
+            $table->string('email')->unique();
+            $table->string('phone_number');
+            $table->string('picture');
             $table->unsignedBigInteger('role');
             $table->foreign('role')
                 ->references('role_id')
                 ->on('admin_roles')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->string("password");
+            $table->string('password');
             $table->timestamps();
         });
     }

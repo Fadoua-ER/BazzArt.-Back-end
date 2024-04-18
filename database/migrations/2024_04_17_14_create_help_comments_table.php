@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('help_comments', function (Blueprint $table) {
-            $table->id("helpcomment_id");
-            $table->longText("visitor_comment");
-            $table->date("publication_date")->default(now());
+            $table->id('helpcomment_id');
+            $table->longText('visitor_comment');
+            $table->date('publication_date')->default(now());
             $table->unsignedBigInteger('visitor');
             $table->foreign('visitor')
                 ->references('visitor_id')

@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('blog_posts', function (Blueprint $table) {
-            $table->id("post_id");
-            $table->longText("text_content");
-            $table->string("file")->nullable();
-            $table->date("publication_date")->default(now());
+            $table->id('post_id');
+            $table->longText('text_content');
+            $table->string('file')->nullable();
+            $table->date('publication_date')->default(now());
             $table->unsignedBigInteger('poster');
             $table->foreign('poster')
                 ->references('admin_id')

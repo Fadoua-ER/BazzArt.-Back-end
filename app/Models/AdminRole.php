@@ -7,5 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class AdminRole extends Model
 {
+    protected $table = 'admin_roles';
+
+    protected $primaryKey = 'role_id';
+    
+    protected $fillable = [
+        'role_name',
+        'role_description'
+    ];
+    
+    protected $hidden = [
+
+    ];
+
     use HasFactory;
 }

@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('admin_message_types', function (Blueprint $table) {
-            $table->id("type_id");
-            $table->string("type_name");
-            $table->longText("type_description");
+            $table->id('type_id');
+            $table->string('type_name');
+            $table->longText('type_description');
             $table->timestamps();
         });
     }

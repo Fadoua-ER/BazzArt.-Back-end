@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('transactions', function (Blueprint $table) {
-            $table->id("transaction_id");
+            $table->id('transaction_id');
             $table->string('transaction_code')->unique();
-            $table->date("transaction_date")->default(now());
+            $table->date('transaction_date')->default(now());
             $table->unsignedBigInteger('transaction_client');
             $table->unsignedBigInteger('transaction_artist');
             $table->unsignedBigInteger('transaction_artwork');

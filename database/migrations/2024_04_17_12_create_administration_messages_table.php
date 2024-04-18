@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('administration_messages', function (Blueprint $table) {
-            $table->id("admin_message_id");
-            $table->longtext("message");
-            $table->unsignedBigInteger("message_type");
+            $table->id('admin_message_id');
+            $table->longtext('message');
+            $table->unsignedBigInteger('message_type');
             $table->unsignedBigInteger('concerned_profil');
             $table->unsignedBigInteger('responsible_admin');
             $table->foreign('message_type')

@@ -7,5 +7,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class Country extends Model
 {
+    protected $table = 'countries';
+
+    protected $primaryKey = 'country_id';
+    
+    protected $fillable = [
+        'country_code',
+        'country_name',
+        'phone_code',
+        'continent'
+    ];
+            
+    protected $hidden = [
+
+    ];
+
     use HasFactory;
 }

@@ -12,15 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('artworks', function (Blueprint $table) {
-            $table->id("artwork_id");
-            $table->char("artwork_code", 10)->unique(); 
-            $table->string("artwork_name");
-            $table->longText("artwork_description");
-            $table->string("picture");
-            $table->date("creation_date")->default(now());
-            $table->date("publication_date")->default(now());
-            $table->float("price");
-            $table->boolean("validation")->default(false);
+            $table->id('artwork_id');
+            $table->char('artwork_code', 10)->unique(); 
+            $table->string('artwork_name');
+            $table->longText('artwork_description');
+            $table->string('picture');
+            $table->date('creation_date')->default(now());
+            $table->date('publication_date')->default(now());
+            $table->float('price');
+            $table->boolean('validation')->default(false);
             $table->unsignedBigInteger('owner');
             $table->unsignedBigInteger('category');
             $table->unsignedBigInteger('location_country');
@@ -31,8 +31,8 @@ return new class extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->foreign('category')
-                ->references('category_id')
-                ->on('categories')
+                ->references('subcategory_id')
+                ->on('sub_categories')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->foreign('location_country')
