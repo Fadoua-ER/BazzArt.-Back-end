@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class City extends Model
 {
@@ -18,9 +19,14 @@ class City extends Model
         'country'
     ];
     
-    protected $hidden = [
+    /**
+     * This function gets the country to which the city belongs
+    */
 
-    ];
+    public function country(): BelongsTo
+    {
+        return $this->belongTo(Country::class);
+    }
 
     use HasFactory;
 }

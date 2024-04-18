@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Status extends Model
 {
@@ -16,9 +17,15 @@ class Status extends Model
         'status_description'
     ];
     
-    protected $hidden = [
+    /** 
+     * This function gets the artworks that belong to the status
+    */
 
-    ];
+    public function artworks() : HasMany
+    {
+        return $this->hasMany(Artwork::class);
+    }
+
 
     use HasFactory;
 }

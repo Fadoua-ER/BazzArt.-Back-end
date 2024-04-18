@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Transaction extends Model
 {
@@ -19,9 +20,25 @@ class Transaction extends Model
         'transaction_artwork'
     ];
     
-    protected $hidden = [
+    /**
+     * This function gets the client to which the transaction belongs
+    */
 
-    ];
+    public function clients(): BelongsTo
+    {
+        return $this->belongTo(Client::class);
+    }
+
+    /**
+     * This function gets the artist to which the transaction belongs
+    */
+
+    public function artist(): BelongsTo
+    {
+        return $this->belongTo(Profil::class);
+    }
+
+
 
     use HasFactory;
 }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class AdminMessageType extends Model
 {
@@ -16,9 +17,14 @@ class AdminMessageType extends Model
         'type_description'
     ];
     
-    protected $hidden = [
+    /** 
+     * This function gets the messages that belong to the type
+    */
 
-    ];
+    public function messages() : HasMany
+    {
+        return $this->hasMany(AdministrationMessage::class);
+    }
 
     use HasFactory;
 }

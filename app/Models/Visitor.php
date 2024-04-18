@@ -16,10 +16,7 @@ class Visitor extends Model
         'visitor_lastname',
         'visitor_email'
     ];
-    
-    protected $hidden = [
 
-    ];
 
     use HasFactory;
 }

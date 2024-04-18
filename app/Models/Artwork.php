@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Artwork extends Model
 {
@@ -26,9 +28,23 @@ class Artwork extends Model
         'location_city'
     ];
     
-    protected $hidden = [
+    /** 
+     * This function gets the comments of the client
+    */
 
-    ];
+    public function comments() : HasManyThrough
+    {
+        return $this->hasMany(ClientComment::class, Client::class);
+    }
+
+    /**
+     * This function gets the artist to which the artwork belongs
+    */
+
+    public function artist(): BelongsTo
+    {
+        return $this->belongTo(Profil::class);
+    }
 
     use HasFactory;
 }
