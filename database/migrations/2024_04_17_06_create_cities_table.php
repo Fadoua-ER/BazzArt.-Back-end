@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreign('country')
                 ->references('country_id')
                 ->on('countries')
+                ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->timestamps();
         });
