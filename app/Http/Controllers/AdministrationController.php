@@ -6,6 +6,16 @@ use Illuminate\Http\Request;
 
 class AdministrationController extends Controller
 {
+    //Authentification functions
+    public function admin_login(){
+        
+    }
+    public function admin(){
+        
+    }
+    public function admin_logout(){
+        
+    }
     //CRUD operations on Continents
     public function create_continent()
     {
@@ -24,19 +34,19 @@ class AdministrationController extends Controller
         
     }
     //CRUD operations on Countries
-    public function create_county()
+    public function create_country()
     {
         
     }
-    public function read_county()
+    public function read_country()
     {
         
     }
-    public function update_county()
+    public function update_country()
     {
         
     }
-    public function delete_county()
+    public function delete_country()
     {
         
     }
@@ -125,6 +135,23 @@ class AdministrationController extends Controller
     {
         
     }
+    //CRUD operations on Informing Messages
+    public function create_informing_message()
+    {
+        
+    }
+    public function read_informing_message()
+    {
+        
+    }
+    public function update_informing_message()
+    {
+        
+    }
+    public function delete_informing_message()
+    {
+        
+    }
     //CRUD operations on Administarors Roles
     public function create_admin_role()
     {
@@ -160,14 +187,14 @@ class AdministrationController extends Controller
         
     }
     //CRUD operations on Profils
-    public function create_artist_profil()
-    {
-        
-    }
     public function read_artist_profil()
     {
         
     }
+    //This function can be used in the validation of the profil 
+    //After the update the variable validated turns from on hold to either 'yes' or 'no'
+    //'yes' means he can access his account and show up in the Artists page 
+    //'no' means his account will be deleted (trigger)
     public function update_artist_profil()
     {
         
@@ -177,15 +204,7 @@ class AdministrationController extends Controller
         
     }
     //CRUD operations on Artworks
-    public function create_artwork()
-    {
-        
-    }
     public function read_artwork()
-    {
-        
-    }
-    public function update_artwork()
     {
         
     }
@@ -194,10 +213,6 @@ class AdministrationController extends Controller
         
     }
     //CRUD operations on Clients
-    public function create_client()
-    {
-        
-    }
     public function read_client()
     {
         
@@ -229,6 +244,8 @@ class AdministrationController extends Controller
         
     }
     //CRUD operations on Visitors Messages
+    /*
+    This should be included with the visitor
     public function read_visitor_message()
     {
         
@@ -237,6 +254,7 @@ class AdministrationController extends Controller
     {
         
     }
+    */
     //CRUD operations on Administrators
     public function create_admin()
     {
@@ -322,6 +340,4 @@ class AdministrationController extends Controller
     {
         
     }
-
-
 }
