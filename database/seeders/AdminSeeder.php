@@ -18,10 +18,11 @@ class AdminSeeder extends Seeder
     public function run(): void
     {
         //
+        $superAdminRoleId = DB::table('admin_roles')->where('role_name', 'Super Admin')->value('role_id');
         DB::table('administrators')->insert([
             'email' => 'bazzartforartsellers@gmail.com',
             'phone_number' => '+212689600528',
-            'role' => 1,
+            'role' => $superAdminRoleId,
             'password' => Hash::make('bazzartpassword')
         ]);
     }
