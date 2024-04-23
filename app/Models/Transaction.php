@@ -17,7 +17,8 @@ class Transaction extends Model
         'transaction_date',
         'transaction_client',
         'transaction_artist',
-        'transaction_artwork'
+        'transaction_artwork',
+        'transaction_cart',
     ];
     
     /**
@@ -38,7 +39,14 @@ class Transaction extends Model
         return $this->belongTo(Profil::class);
     }
 
+    /**
+     * This function gets the artist to which the transaction belongs
+    */
 
+    public function cart(): BelongsTo
+    {
+        return $this->belongTo(Profil::class);
+    }
 
     use HasFactory;
 }
