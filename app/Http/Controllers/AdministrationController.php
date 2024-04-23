@@ -3,15 +3,27 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Models\Administrator;
 
 class AdministrationController extends Controller
 {
     //Authentification functions
-    public function admin_login(){
-        
-    }
     public function admin(){
-        
+        $admins = Administrator::all();
+        return $admins;
+    }
+    public function admin_login(Request $request){
+        if (!Auth::attempt($request->only('email', 'password'), 'Administrator')) {
+            return response([
+                'message' => 'Invalid credentials!'
+            ], 401);
+        } else {
+            $admin = Auth::admin();
+            $token = $admin->createToken('token')->plainTextToken;
+            return $token;
+        }
     }
     public function admin_logout(){
         
