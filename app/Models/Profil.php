@@ -24,7 +24,8 @@ class Profil extends Model
         'artist_picture',
         'current_country',
         'artist_phone_code',
-        'artist_phone_number'
+        'artist_phone_number',
+        'account_validation'
     ];
     
     protected $hidden = [

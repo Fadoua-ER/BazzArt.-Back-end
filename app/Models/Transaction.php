@@ -18,7 +18,7 @@ class Transaction extends Model
         'transaction_client',
         'transaction_artist',
         'transaction_artwork',
-        'transaction_cart',
+        'transaction_cart'
     ];
     
     /**

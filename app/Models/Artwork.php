@@ -22,6 +22,7 @@ class Artwork extends Model
         'publication_date',
         'price',
         'validation',
+        'artwork_status',
         'owner',
         'category',
         'location_country',
