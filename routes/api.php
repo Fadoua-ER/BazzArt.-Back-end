@@ -44,7 +44,7 @@ Route::controller(AdministrationController::class)->group(function () {
     Route::post('/add-informing_message',  'create_informing_message');
     //Read
     Route::get('/continents',  'read_continent');
-    Route::get('/counties',  'read_country');
+    Route::get('/countries',  'read_country');
     Route::get('/cities',  'read_city');
     Route::get('/categories',  'read_category');
     Route::get('/subcategories',  'read_subcategory');
@@ -65,7 +65,7 @@ Route::controller(AdministrationController::class)->group(function () {
     Route::get('/informing_messages',  'read_informing_message');
     //Update
     Route::put('/continents/{id}',  'update_continent');
-    Route::put('/counties/{id}',  'update_country');
+    Route::put('/countries/{id}',  'update_country');
     Route::put('/cities/{id}',  'update_city');
     Route::put('/categories/{id}',  'update_category');
     Route::put('/subcategories/{id}',  'update_subcategory');

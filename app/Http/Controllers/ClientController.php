@@ -3,31 +3,35 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\ClientComment;
+use App\Models\Cart;
+use App\Models\Client;
 
 class ClientController extends Controller
 {
      //Authentification functions
      public function client_registration(){
-        
+
      }
      public function client_login(){
- 
+
      }
      public function client(){
-         
+
      }
      public function client_logout(){
-         
+
      }
-    //CRUD operations on Client message 
+    //CRUD operations on Client message
     public function create_client_message()
     {
-
+        ClientComment::create($request->all());
+        return response()->json("The comment is added successfully !",200);
     }
     //function read is in the AdministrationController
     public function update_client_message()
     {
-        
+
     }
     //function delete is in the AdministrationController
     //CRUD operations on Order(Transactions)
@@ -52,7 +56,8 @@ class ClientController extends Controller
     //CRUD operations on Cart of orders
     public function create_cart()
     {
-
+        Cart::create($request->all());
+        return response()->json("The cart is added successfully !",200);
     }
     public function read_cart()
     {

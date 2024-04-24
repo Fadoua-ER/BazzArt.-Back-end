@@ -6,7 +6,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Notifications\Notifiable;
+
 class Administrator extends Model
 {
     use HasApiTokens, HasFactory;
@@ -14,14 +14,15 @@ class Administrator extends Model
     protected $table = 'administrators';
 
     protected $primaryKey = 'admin_id';
-    
+
     protected $fillable = [
         'email',
         'phone_number',
+        'password',
         'picture',
         'role'
     ];
-    
+
     protected $hidden = [
         'password'
     ];

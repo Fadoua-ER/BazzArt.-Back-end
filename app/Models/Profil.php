@@ -9,11 +9,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Profil extends Model
-{ 
+{
     protected $table = 'profils';
 
     protected $primaryKey = 'artist_id';
-    
+
     protected $fillable = [
         'artist_firstname',
         'artist_lastname',
@@ -21,18 +21,19 @@ class Profil extends Model
         'biography',
         'artist_birthday',
         'artist_email',
+        'artist_password',
         'artist_picture',
         'current_country',
         'artist_phone_code',
         'artist_phone_number',
         'account_validation'
     ];
-    
+
     protected $hidden = [
         'artist_password'
     ];
 
-    /** 
+    /**
      * This function gets the artworks that belong to the artist
     */
 
@@ -41,7 +42,7 @@ class Profil extends Model
         return $this->hasMany(Artwork::class);
     }
 
-    /** 
+    /**
      * This function gets the transactions of the artist
     */
 
@@ -50,7 +51,7 @@ class Profil extends Model
         return $this->hasMany(Transaction::class);
     }
 
-    /** 
+    /**
      * This function gets the clients of the artist
     */
 
@@ -59,7 +60,7 @@ class Profil extends Model
         return $this->hasManyThrough(Client::class, Artwork::class);
     }
 
-    /** 
+    /**
      * This function gets the administration messages of the artist as notifications
     */
 
