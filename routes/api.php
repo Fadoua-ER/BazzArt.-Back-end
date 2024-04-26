@@ -43,26 +43,26 @@ Route::controller(AdministrationController::class)->group(function () {
     Route::post('/add-payment_method',  'create_payment_method');
     Route::post('/add-informing_message',  'create_informing_message');
     //Read
-    Route::get('/continents',  'read_continent');
-    Route::get('/countries',  'read_country');
-    Route::get('/cities',  'read_city');
-    Route::get('/categories',  'read_category');
-    Route::get('/subcategories',  'read_subcategory');
-    Route::get('/statuses',  'read_status');
-    Route::get('/message_types',  'read_message_type');
-    Route::get('/admin_roles',  'read_admin_role');
-    Route::get('/admins',  'read_admin');
-    Route::get('/blog_posts',  'read_blog_post');
-    Route::get('/artist_profils',  'read_artist_profil');
-    Route::get('/artworks',  'read_artwork');
-    Route::get('/clients',  'read_client');
-    Route::get('/client_messages',  'read_client_message');
-    Route::get('/visitors',  'read_visitor');
-    Route::get('/chat_messages',  'read_chat_message');
-    Route::get('/notes',  'read_note');
-    Route::get('/payment_methods',  'read_payment_method');
-    Route::get('/transactions',  'read_transaction');
-    Route::get('/informing_messages',  'read_informing_message');
+    Route::get('/continents',  'read_continents');
+    Route::get('/countries',  'read_countries');
+    Route::get('/cities',  'read_cities');
+    Route::get('/categories',  'read_categories');
+    Route::get('/subcategories',  'read_subcategories');
+    Route::get('/statuses',  'read_statuses');
+    Route::get('/message_types',  'read_message_types');
+    Route::get('/admins_roles',  'read_admins_roles');
+    Route::get('/admins',  'read_admins');
+    Route::get('/blog_posts',  'read_blog_posts');
+    Route::get('/artists_profils',  'read_artists_profils');
+    Route::get('/artworks',  'read_artworks');
+    Route::get('/clients',  'read_clients');
+    Route::get('/clients_messages',  'read_clients_messages');
+    Route::get('/visitors',  'read_visitors');
+    Route::get('/chat_messages',  'read_chat_messages');
+    Route::get('/notes',  'read_notes');
+    Route::get('/payment_methods',  'read_payment_methods');
+    Route::get('/transactions',  'read_transactions');
+    Route::get('/informing_messages',  'read_informing_messages');
     //Update
     Route::put('/continents/{id}',  'update_continent');
     Route::put('/countries/{id}',  'update_country');
@@ -71,10 +71,10 @@ Route::controller(AdministrationController::class)->group(function () {
     Route::put('/subcategories/{id}',  'update_subcategory');
     Route::put('/statuses/{id}',  'update_status');
     Route::put('/message_types/{id}',  'update_message_type');
-    Route::put('/admin_roles/{id}',  'update_admin_role');
+    Route::put('/admins_roles/{id}',  'update_admin_role');
     Route::put('/admins/{id}',  'update_admin');
     Route::put('/blog_posts/{id}',  'update_blog_post');
-    Route::put('/artist_profils/{id}',  'update_artist_profil');
+    Route::put('/artists_profils/{id}',  'update_artist_profil');
     Route::put('/clients/{id}',  'update_client');
     Route::put('/chat_messages/{id}',  'update_chat_message');
     Route::put('/notes/{id}',  'update_note');
@@ -101,6 +101,27 @@ Route::controller(AdministrationController::class)->group(function () {
     Route::delete('/payment_methods/{id}',  'delete_payment_method');
     Route::delete('/transactions/{id}',  'delete_transaction');
     Route::delete('/informing_messages/{id}',  'delete_informing_message');
+    //Show
+    Route::get('/continents/{id}',  'show_continent');
+    Route::get('/countries/{id}',  'show_country');
+    Route::get('/cities/{id}',  'show_city');
+    Route::get('/categories/{id}',  'show_category');
+    Route::get('/subcategories/{id}',  'show_subcategory');
+    Route::get('/statuses/{id}',  'show_status');
+    Route::get('/message_types/{id}',  'show_message_type');
+    Route::get('/admins_roles/{id}',  'show_admin_role');
+    Route::get('/admins/{id}',  'show_admin');
+    Route::get('/artworks/{id}',  'show_artwork');
+    Route::get('/blog_posts/{id}',  'show_blog_post');
+    Route::get('/artists_profils/{id}',  'show_artist_profil');
+    Route::get('/clients/{id}',  'show_client');
+    Route::get('/clients_messages/{id}',  'show_client_message');
+    Route::get('/chat_messages/{id}',  'show_chat_message');
+    Route::get('/notes/{id}',  'show_note');
+    Route::get('/informing_messages/{id}',  'show_informing_message');
+    Route::get('/visitors/{id}',  'show_visitor');//visitors messages are included
+    Route::get('/transactions/{id}',  'show_transaction');
+
     //Authentification functions
     Route::post('/admin-login',  'admin_login');
     Route::get('/admin',  'admin');
@@ -129,13 +150,16 @@ Route::controller(ClientController::class)->group(function () {
     //Create
     Route::post('/add-client-comment', 'create_client_message');
     Route::post('/add-cart', 'create_cart');
+    Route::post('/add-order', 'create_order');
     //Read
-    Route::get('/carts', 'read_cart');
+    Route::get('/carts', 'read_carts');
     //Update
     Route::put('/client-messages/{id}', 'update_client_message');
     Route::put('/carts/{id}', 'update_client_message');
     //Delete
     Route::delete('/carts/{id}', 'delete_cart');
+    //Show
+    Route::get('/carts/{id}', 'show_cart');
     //Authentification functions
     Route::post('/client-registration', 'client_registration');
     Route::post('/client-login', 'client_login');

@@ -24,7 +24,8 @@ class Administrator extends Model
     ];
 
     protected $hidden = [
-        'password'
+        'password',
+        'remember_token'
     ];
 
     /**

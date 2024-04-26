@@ -20,5 +20,4 @@ class VisitorController extends Controller
         $visitors->update($request->all());
         return response()->json(['message'=>'Visitor updated the message successfully','modification'=>$visitors],200);
     }
-    //function delete is in the AdministrationController
 }

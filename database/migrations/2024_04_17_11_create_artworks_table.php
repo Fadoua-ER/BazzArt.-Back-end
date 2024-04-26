@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('artworks', function (Blueprint $table) {
             $table->id('artwork_id');
-            $table->char('artwork_code', 10)->unique(); 
+            $table->char('artwork_code', 10)->unique();
             $table->string('artwork_name');
             $table->longText('artwork_description');
             $table->string('picture');
@@ -36,8 +36,8 @@ return new class extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->foreign('location_country')
-                ->references('continent_id')
-                ->on('continents')
+                ->references('country_id')
+                ->on('countries')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->foreign('location_city')

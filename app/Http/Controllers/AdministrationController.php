@@ -33,15 +33,12 @@ use App\Models\Payment;
 class AdministrationController extends Controller
 {
     //Authentification functions
-    public function admin_login(){
+    public function admin_login(Request $request)
+    {
 
     }
-    public function admin(string $id){
-        $admin = Administrator::findorFail($id);
-        return $admin;
-
-    }
-    public function admin_logout(){
+    public function admin_logout()
+    {
 
     }
     //CRUD operations on Continents
@@ -55,7 +52,7 @@ class AdministrationController extends Controller
         Continent::create($request->all());
         return response()->json("The continent is added successfully !",200);
     }
-    public function read_continent()
+    public function read_continents()
     {
         $continentslist = Continent::all();
         return $continentslist;
@@ -79,12 +76,17 @@ class AdministrationController extends Controller
         }
     }
     //CRUD operations on Countries
+    public function show_country(string $id)
+    {
+        $country= Country::findorFail($id);
+        return $country;
+    }
     public function create_country(Request $request)
     {
         Country::create($request->all());
         return response()->json("The country is added successfully !",200);
     }
-    public function read_country()
+    public function read_countries()
     {
         $countrieslist = Country::all();
         return $countrieslist;
@@ -108,12 +110,17 @@ class AdministrationController extends Controller
         }
     }
     //CRUD operations on Cities
+    public function show_city(string $id)
+    {
+        $city= City::findorFail($id);
+        return $city;
+    }
     public function create_city(Request $request)
     {
         City::create($request->all());
         return response()->json("The city is added successfully !",200);
     }
-    public function read_city()
+    public function read_cities()
     {
         $citieslist = City::all();
         return $citieslist;
@@ -137,12 +144,17 @@ class AdministrationController extends Controller
         }
     }
     //CRUD operations on Categories
+    public function show_category(string $id)
+    {
+        $category= Category::findorFail($id);
+        return $category;
+    }
     public function create_category(Request $request)
     {
         Category::create($request->all());
         return response()->json("The category is added successfully !",200);
     }
-    public function read_category()
+    public function read_categories()
     {
         $categorieslist = Category::all();
         return $categorieslist;
@@ -166,12 +178,17 @@ class AdministrationController extends Controller
         }
     }
     //CRUD operations on Subcategories
+    public function show_subcategory(string $id)
+    {
+        $subcategory= SubCategory::findorFail($id);
+        return $subcategory;
+    }
     public function create_subcategory(Request $request)
     {
         SubCategory::create($request->all());
         return response()->json("The subcategory is added successfully !",200);
     }
-    public function read_subcategory()
+    public function read_subcategories()
     {
         $subcategorieslist = SubCategory::all();
         return $subcategorieslist;
@@ -195,12 +212,17 @@ class AdministrationController extends Controller
         }
     }
     //CRUD operations on Statuses
+    public function show_status(string $id)
+    {
+        $status= Status::findorFail($id);
+        return $status;
+    }
     public function create_status(Raquest $request)
     {
         Status::create($request->all());
         return response()->json("The status is added successfully !",200);
     }
-    public function read_status()
+    public function read_statuses()
     {
         $statuseslist = Status::all();
         return $statuseslist;
@@ -224,12 +246,17 @@ class AdministrationController extends Controller
         }
     }
     //CRUD operations on Messages types
+    public function show_message_type(string $id)
+    {
+        $message_type= AdminMessageType::findorFail($id);
+        return $message_type;
+    }
     public function create_message_type(Request $request)
     {
         AdminMessageType::create($request->all());
         return response()->json("The type is added successfully !",200);
     }
-    public function read_message_type()
+    public function read_message_types()
     {
         $mssgtypeslist = AdminMessageType::all();
         return $mssgtypeslist;
@@ -253,12 +280,17 @@ class AdministrationController extends Controller
         }
     }
     //CRUD operations on Informing Messages
+    public function show_informing_message(string $id)
+    {
+        $informing_message= AdministrationMessage::findorFail($id);
+        return $informing_message;
+    }
     public function create_informing_message(Request $request)
     {
         AdministrationMessage::create($request->all());
         return response()->json("The message is sent successfully !",200);
     }
-    public function read_informing_message()
+    public function read_informing_messages()
     {
         $adminmssgslist = AdministrationMessage::all();
         return $adminmssgslist;
@@ -282,12 +314,17 @@ class AdministrationController extends Controller
         }
     }
     //CRUD operations on Administarors Roles
+    public function show_admin_role(string $id)
+    {
+        $admin_role= AdminRole::findorFail($id);
+        return $admin_role;
+    }
     public function create_admin_role(Request $request)
     {
         AdminRole::create($request->all());
         return response()->json("The role is added successfully !",200);
     }
-    public function read_admin_role()
+    public function read_admins_roles()
     {
         $adminroleslist = AdminRole::all();
         return $adminroleslist;
@@ -311,12 +348,17 @@ class AdministrationController extends Controller
         }
     }
     //CRUD operations on Blog posts
-    public function create_blog_post()
+    public function show_blog_post(string $id)
+    {
+        $blog_post= BlogPost::findorFail($id);
+        return $blog_post;
+    }
+    public function create_blog_post(Request $request)
     {
         BlogPost::create($request->all());
         return response()->json("The post is added successfully !",200);
     }
-    public function read_blog_post()
+    public function read_blog_posts()
     {
         $postslist = BlogPost::all();
         return $postslist;
@@ -340,7 +382,12 @@ class AdministrationController extends Controller
         }
     }
     //CRUD operations on Profils
-    public function read_artist_profil()
+    public function show_artist_profil(string $id)
+    {
+        $artist_profil= Profil::findorFail($id);
+        return $artist_profil;
+    }
+    public function read_artists_profils()
     {
         $artistslist = Profil::all();
         return $artistslist;
@@ -368,7 +415,12 @@ class AdministrationController extends Controller
         }
     }
     //CRUD operations on Artworks
-    public function read_artwork()
+    public function show_artwork(string $id)
+    {
+        $artwork= Artwork::findorFail($id);
+        return $artwork;
+    }
+    public function read_artworks()
     {
         $artworkslist = Artwork::all();
         return $artworkslist;
@@ -386,7 +438,12 @@ class AdministrationController extends Controller
         }
     }
     //CRUD operations on Clients
-    public function read_client()
+    public function show_client(string $id)
+    {
+        $client= Client::findorFail($id);
+        return $client;
+    }
+    public function read_clients()
     {
         $clientslist = Client::all();
         return $clientslist;
@@ -410,7 +467,12 @@ class AdministrationController extends Controller
         }
     }
     //CRUD operations on Clients comments
-    public function read_client_message()
+    public function show_client_message(string $id)
+    {
+        $client_message= ClientComment::findorFail($id);
+        return $client_message;
+    }
+    public function read_clients_messages()
     {
         $clientmssgslist = ClientComment::all();
         return $clientmssgslist;
@@ -428,7 +490,12 @@ class AdministrationController extends Controller
         }
     }
     //CRUD operations on Visitors
-    public function read_visitor()
+    public function show_visitor(string $id)
+    {
+        $visitor= Visitor::findorFail($id);
+        return $visitor;
+    }
+    public function read_visitors()
     {
         $visitorslist = Visitor::all();
         return $visitorslist;
@@ -447,14 +514,28 @@ class AdministrationController extends Controller
     }
     //CRUD operations on Visitors Messages
     /*
-    This should be included with the visitor
+
+    public function show_visitor_message(string $id)
+    {
+        $visitor_message= Visitor::findorFail($id);
+        return $visitor_message;
+    }
+    //This should be included with the visitor
     public function read_visitor_message()
     {
 
     }
-    public function delete_visitor_message()
+    public function delete_visitor_message(string $id)
     {
-
+        $resultats=Visitor::destroy($id);
+        if($resultats>0)
+        {
+            return response()->json("The visitor message $id is deleted",200);
+        }
+        else
+        {
+            return response()->json("Error the visitor message $id was not deleted !",400);
+        }
     }
     */
     //CRUD operations on Administrators
@@ -464,6 +545,11 @@ class AdministrationController extends Controller
         Administrator::create($request->all());
         return response()->json("The admin is added successfully !",200);
     }*/
+    public function admin(string $id)
+    {
+        $admin = Administrator::findorFail($id);
+        return $admin;
+    }
     public function create_admin(Request $request)
     {
         $password = bcrypt($request->input('password')); // Hash the password
@@ -471,7 +557,7 @@ class AdministrationController extends Controller
         Administrator::create($request->all()); // Create the administrator with the hashed password
         return response()->json("The admin is added successfully !", 200);
     }
-    public function read_admin()
+    public function read_admins()
     {
         $adminslist = Administrator::all();
         return $adminslist;
@@ -500,12 +586,17 @@ class AdministrationController extends Controller
         }
     }
     //CRUD operations on Chat Messages
+    public function show_chat_message(string $id)
+    {
+        $chat_message= AdminChatMessage::findorFail($id);
+        return $chat_message;
+    }
     public function create_chat_message(Request $request)
     {
         AdminChatMessage::create($request->all());
         return response()->json("The chat message is added successfully !",200);
     }
-    public function read_chat_message()
+    public function read_chat_messages()
     {
         $adminchatmssgs = AdminChatMessage::all();
         return $adminchatmssgs;
@@ -529,12 +620,17 @@ class AdministrationController extends Controller
         }
     }
     //CRUD operations on Analytics Notes
+    public function show_note(string $id)
+    {
+        $note= AdminNote::findorFail($id);
+        return $note;
+    }
     public function create_note(Request $request)
     {
         AdminNote::create($request->all());
         return response()->json("The note is added successfully !",200);
     }
-    public function read_note()
+    public function read_notes()
     {
         $adminnoteslist = AdminNote::all();
         return $adminnoteslist;
@@ -558,12 +654,17 @@ class AdministrationController extends Controller
         }
     }
     //CRUD operations on Transactions
+    public function show_transaction(string $id)
+    {
+        $transaction= Transaction::findorFail($id);
+        return $transaction;
+    }
     public function create_transaction(Request $request)
     {
         Transaction::create($request->all());
         return response()->json("The transaction is added successfully !",200);
     }
-    public function read_transaction()
+    public function read_transactions()
     {
         $transactionslist = Transaction::all();
         return $transactionslist;
@@ -592,7 +693,7 @@ class AdministrationController extends Controller
         Payment::create($request->all());
         return response()->json("The payment method is added successfully !",200);
     }
-    public function read_payment_method()
+    public function read_payment_methods()
     {
         $paymentmethodslist = Payment::all();
         return $paymentmethodslist;
@@ -615,6 +716,7 @@ class AdministrationController extends Controller
             return response()->json("Error the payment method $id was not deleted !",400);
         }
     }
+    //show functions get an elemet (GET  /elements/{id}   id->element_id  show)
 
 
 }
