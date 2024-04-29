@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('artist_username')->unique();
             $table->longText('biography')->nullable();
             $table->date('artist_birthday');
-            $table->string('artist_email');
+            $table->string('artist_email')->unique();
             $table->string('artist_picture')->nullable();
             $table->unsignedBigInteger('current_country');
             $table->foreign('current_country')

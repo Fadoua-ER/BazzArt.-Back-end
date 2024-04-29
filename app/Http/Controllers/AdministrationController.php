@@ -35,6 +35,30 @@ class AdministrationController extends Controller
     //Authentification functions
     public function admin_login(Request $request)
     {
+        /*$credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+            return response()->json(['message'=>'Authorized'],200);
+        }
+
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ])->onlyInput('email');
+        */
+
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::attempt($credentials)) {
+            // Authentication passed...
+            $authadmin = auth()->admin();
+            return response()->json(['message' => 'Login successful'], 200);
+        } else {
+            return response()->json(['message' => 'Invalid email or password'], 401);
+        }
 
     }
     public function admin_logout()
