@@ -13,9 +13,9 @@ class ProfilController extends Controller
         $password = bcrypt($request->input('artist_password')); // Hash the password
         $request->merge(['artist_password' => $password]); // Replace the plain text password with the hashed one
         Profil::create($request->all()); // Create the administrator with the hashed password
-        return response()->json("The artist is added successfully !", 200);
+        return response()->json("The artist is registerd successfully !", 200);
     }
-    public function artist_login(){
+    public function artist_login(Request $request){
 
     }
     public function artist(){
