@@ -11,14 +11,14 @@ class City extends Model
     protected $table = 'cities';
 
     protected $primaryKey = 'city_id';
-    
+
     protected $fillable = [
         'city_name',
-        'city_province',
         'postal_code',
+        'city_region',
         'country'
     ];
-    
+
     /**
      * This function gets the country to which the city belongs
     */

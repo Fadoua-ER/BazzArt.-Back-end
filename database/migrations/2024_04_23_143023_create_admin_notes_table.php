@@ -17,7 +17,7 @@ return new class extends Migration
             $table->date('note_creating_date')->nullable()->now();
             $table->unsignedBigInteger('analytics_admin');
             $table->foreign('analytics_admin')
-                ->references('admin_id')
+                ->references('id')
                 ->on('administrators')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');

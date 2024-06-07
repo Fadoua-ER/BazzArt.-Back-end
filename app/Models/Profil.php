@@ -2,18 +2,21 @@
 
 namespace App\Models;
 
+use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 
-class Profil extends Model
+
+class Profil extends Authenticatable
 {
-    protected $table = 'profils';
+    use HasApiTokens, HasFactory;
 
-    protected $primaryKey = 'artist_id';
+    protected $table = 'profils';
 
     protected $fillable = [
         'artist_firstname',
@@ -27,11 +30,14 @@ class Profil extends Model
         'current_country',
         'artist_phone_code',
         'artist_phone_number',
-        'account_validation'
+        'account_validation',
+        'api_token',
     ];
 
     protected $hidden = [
-        'artist_password'
+        'artist_password',
+        'remember_token',
+        'api_token',
     ];
 
     /**

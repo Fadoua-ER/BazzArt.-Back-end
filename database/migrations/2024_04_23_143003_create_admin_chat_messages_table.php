@@ -17,7 +17,7 @@ return new class extends Migration
             $table->date('message_sending_date')->nullable()->now();
             $table->unsignedBigInteger('sender_admin');
             $table->foreign('sender_admin')
-                ->references('admin_id')
+                ->references('id')
                 ->on('administrators')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');

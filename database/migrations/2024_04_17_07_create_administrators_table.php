@@ -12,10 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('administrators', function (Blueprint $table) {
-            $table->id('admin_id');
+            $table->id();
             $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
             $table->string('phone_number')->unique();
             $table->string('picture')->nullable();
+            $table->string('api_token');
             $table->unsignedBigInteger('role');
             $table->foreign('role')
                 ->references('role_id')
@@ -23,6 +25,7 @@ return new class extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->string('password');
+            $table->rememberToken();
             $table->timestamps();
         });
     }

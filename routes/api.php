@@ -177,3 +177,31 @@ Route::controller(VisitorController::class)->group(function () {
     Route::put('/visitors/{id}', 'update_visitor_message');
     //Delete
 });
+
+// Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+//Admin
+Route::post('/admin-login', [AdministrationController::class, 'login']);
+// Route::post('/admin-register', [AdministrationController::class, 'register']);
+
+Route::middleware('admin.auth.token')->group(function () {
+    Route::get('/admin-profile', [AdministrationController::class, 'index']);
+});
+
+//Artist
+Route::post('/artist-login', [ProfilController::class, 'login']);
+Route::post('/artist-register', [ProfilController::class, 'register']);
+
+Route::middleware('profil.auth.token')->group(function () {
+    Route::get('/artist-profile', [ProfilController::class, 'index']);
+});
+
+//Client
+Route::post('/client-login', [ClientController::class, 'login']);
+Route::post('/client-register', [ClientController::class, 'register']);
+
+Route::middleware('client.auth.token')->group(function () {
+    Route::get('/client-profile', [ClientController::class, 'index']);
+});

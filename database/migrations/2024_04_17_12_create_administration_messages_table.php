@@ -23,12 +23,12 @@ return new class extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->foreign('concerned_profil')
-                ->references('artist_id')
+                ->references('id')
                 ->on('profils')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->foreign('responsible_admin')
-                ->references('admin_id')
+                ->references('id')
                 ->on('administrators')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');

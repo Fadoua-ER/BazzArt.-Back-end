@@ -26,7 +26,7 @@ return new class extends Migration
             $table->unsignedBigInteger('location_country');
             $table->unsignedBigInteger('location_city');
             $table->foreign('owner')
-                ->references('artist_id')
+                ->references('id')
                 ->on('profils')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');

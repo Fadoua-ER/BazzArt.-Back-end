@@ -11,8 +11,6 @@ class Client extends Model
 {
     protected $table = 'clients';
 
-    protected $primaryKey = 'client_id';
-
     protected $fillable = [
         'client_firstname',
         'client_lastname',
@@ -23,11 +21,14 @@ class Client extends Model
         'client_picture',
         'country',
         'client_phone_code',
-        'client_phone_number'
+        'client_phone_number',
+        'api_token',
     ];
 
     protected $hidden = [
-        'client_password'
+        'client_password',
+        'remember_token',
+        'api_token',
     ];
 
     /**

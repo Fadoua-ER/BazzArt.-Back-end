@@ -2,7 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use App\Models\ClientComment;
 use App\Models\Cart;
 use App\Models\Client;
@@ -11,19 +17,61 @@ use App\Models\Transaction;
 class ClientController extends Controller
 {
     //Authentification functions
-    public function client_registration(Request $request)
+    public function register(Request $request)
     {
-        $password = bcrypt($request->input('client_password')); // Hash the password
-        $request->merge(['client_password' => $password]); // Replace the plain text password with the hashed one
-        Client::create($request->all()); // Create the administrator with the hashed password
-        return response()->json("The client is added successfully !", 200);
-    }
-    public function client_login(){
+        $request->validate([
+            'client_firstname' => 'required|string',
+            'client_lastname' => 'required|string',
+            'client_email' => 'required|email|unique:clients,client_email',
+            'client_password' => 'required|string|min:6|confirmed',
+        ]);
 
-    }
-    public function client(){
+        $client = Client::create([
+            'client_firstname' => $request->client_firstname,
+            'client_lastname' => $request->client_lastname,
+            'client_email' => $request->client_email,
+            'client_password' =>  Hash::make($request->client_password),
+            'api_token' => Str::random(60)
+        ]);
 
+        return response()->json(['client' => $client], 201);
     }
+
+    public function login(Request $request)
+    {
+        $credentials = $request->only('client_email', 'client_password');
+
+        $client = Client::where('client_email', $credentials['client_email'])->first();
+
+        if ($client && Hash::check($credentials['client_password'], $client->client_password)) {
+            $token = Str::random(60);
+            $client->api_token = $token;
+            $client->save();
+
+            return response()->json(['token' => $token], 200);
+        } else {
+            return response()->json(['error' => 'Unauthorized', $token, $client], 401);
+        }
+    }
+
+    public function index(Request $request)
+    {
+        $token = $request->header('Authorization');
+
+        if (!$token) {
+            return response()->json(['error' => 'Token not provided', $token], 401);
+        }
+
+        $token = str_replace('Bearer ', '', $token);
+        $client = Client::where('api_token', $token)->first();
+
+        if ($client) {
+            return response()->json($client);
+        } else {
+            return response()->json(['error' => 'Unauthorized', $client], 401);
+        }
+    }
+
     public function client_logout(){
 
     }

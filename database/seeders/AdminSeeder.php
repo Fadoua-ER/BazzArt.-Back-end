@@ -6,6 +6,8 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+
 
 class AdminSeeder extends Seeder
 {
@@ -14,7 +16,7 @@ class AdminSeeder extends Seeder
      *
      * @return void
     */
-    
+
     public function run(): void
     {
         //
@@ -23,7 +25,8 @@ class AdminSeeder extends Seeder
             'email' => 'bazzartforartsellers@gmail.com',
             'phone_number' => '+212689600528',
             'role' => $superAdminRoleId,
-            'password' => Hash::make('bazzartpassword')
+            'api_token' => Str::random(60),
+            'password' => Hash::make('bazzartpassword'),
         ]);
     }
 }

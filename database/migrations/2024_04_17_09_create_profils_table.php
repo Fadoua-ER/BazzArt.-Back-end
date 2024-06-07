@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('profils', function (Blueprint $table) {
-            $table->id('artist_id');
+            $table->id();
             $table->string('artist_firstname');
             $table->string('artist_lastname');
             $table->string('artist_username')->unique();
@@ -29,6 +29,9 @@ return new class extends Migration
             $table->integer('artist_phone_code');
             $table->bigInteger('artist_phone_number')->length(10);
             $table->string('artist_password');
+            $table->string('api_token');
+            $table->timestamp('email_verified_at')->nullable();
+            $table->rememberToken();
             $table->timestamps();
         });
     }

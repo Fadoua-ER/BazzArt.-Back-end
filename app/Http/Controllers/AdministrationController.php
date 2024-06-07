@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+
 use App\Models\Administrator;
 use App\Models\Profil;
 use App\Models\Client;
@@ -33,14 +35,41 @@ use App\Models\Payment;
 class AdministrationController extends Controller
 {
     //Authentification functions
-    public function admin_login(Request $request)
+    public function login(Request $request)
     {
+        $credentials = $request->only('email', 'password');
 
+        $admin = Administrator::where('email', $credentials['email'])->first();
+
+        if ($admin && Hash::check($credentials['password'], $admin->password)) {
+            $token = Str::random(60);
+            $admin->api_token = $token;
+            $admin->save();
+
+            return response()->json(['token' => $token], 200);
+        } else {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
     }
-    public function admin_logout()
+
+    public function index(Request $request)
     {
+        $token = $request->header('Authorization');
 
+        if (!$token) {
+            return response()->json(['error' => 'Token not provided'], 401);
+        }
+
+        $token = str_replace('Bearer ', '', $token);
+        $admin = Administrator::where('api_token', $token)->first();
+
+        if ($admin) {
+            return response()->json($admin);
+        } else {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
     }
+
     //CRUD operations on Continents
     public function show_continent(string $id)
     {

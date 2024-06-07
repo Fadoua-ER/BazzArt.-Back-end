@@ -19,12 +19,12 @@ return new class extends Migration
             $table->unsignedBigInteger('transaction_artist');
             $table->unsignedBigInteger('transaction_artwork');
             $table->foreign('transaction_client')
-                ->references('client_id')
+                ->references('id')
                 ->on('clients')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->foreign('transaction_artist')
-                ->references('artist_id')
+                ->references('id')
                 ->on('profils')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');

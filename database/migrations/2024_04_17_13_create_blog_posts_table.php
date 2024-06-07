@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('publication_date')->default(now());
             $table->unsignedBigInteger('poster');
             $table->foreign('poster')
-                ->references('admin_id')
+                ->references('id')
                 ->on('administrators')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');

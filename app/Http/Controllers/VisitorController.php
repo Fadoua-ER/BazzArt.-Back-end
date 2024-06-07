@@ -11,7 +11,7 @@ class VisitorController extends Controller
     public function create_visitor_message(Request $request)
     {
         Visitor::create($request->all());
-        return response()->json("The visitor sent a message !",200);
+        return response()->json("The visitor sent a message ! ",200);
     }
     //function read is in the AdministrationController
     public function update_visitor_message(Request $request, $id)
