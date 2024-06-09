@@ -196,6 +196,9 @@ Route::post('/artist-register', [ProfilController::class, 'register']);
 
 Route::middleware('profil.auth.token')->group(function () {
     Route::get('/artist-profile', [ProfilController::class, 'index']);
+    Route::put('/update-artist-profile', [ProfilController::class, 'update']);
+    Route::put('/modify-artist-password', [ProfilController::class, 'modifyPassword']); // Add route for modifying password
+    Route::delete('/delete-artist-account', [ProfilController::class, 'deleteAccount']); // Add route for deleting account
 });
 
 //Client

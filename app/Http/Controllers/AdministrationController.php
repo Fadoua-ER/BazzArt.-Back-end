@@ -35,6 +35,25 @@ use App\Models\Payment;
 class AdministrationController extends Controller
 {
     //Authentification functions
+    public function register(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|unique:administrators,email',
+            'phone_number' => 'required',
+            'role' => 'required|exists:admin_roles,role_id',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+
+        $admin = Administrator::create([
+            'email' => $request->email,
+            'phone_number' => $request->phone_number,
+            'role' => $request->role,
+            'password' =>  Hash::make($request->password),
+            'api_token' => Str::random(60)
+        ]);
+
+        return response()->json(['admin' => $admin], 201);
+    }
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
@@ -246,7 +265,7 @@ class AdministrationController extends Controller
         $status= Status::findorFail($id);
         return $status;
     }
-    public function create_status(Raquest $request)
+    public function create_status(Request $request)
     {
         Status::create($request->all());
         return response()->json("The status is added successfully !",200);

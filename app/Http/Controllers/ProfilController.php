@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+
 use App\Models\Artwork;
 use App\Models\Profil;
 
@@ -106,6 +107,55 @@ class ProfilController extends Controller
     //     }
     // }
 
+    public function update(Request $request)
+    {
+        $token = $request->header('Authorization');
+
+        if (!$token) {
+            return response()->json(['error' => 'Token not provided'], 401);
+        }
+
+        $token = str_replace('Bearer ', '', $token);
+        $profil = Profil::where('api_token', $token)->first();
+
+        if (!$profil) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'artist_firstname' => 'sometimes|required|string',
+            'artist_lastname' => 'sometimes|required|string',
+            'artist_username' => 'sometimes|required|string|unique:profils,artist_username,' . $profil->id,
+            'artist_birthday' => 'sometimes|required|date',
+            'artist_email' => 'sometimes|required|email|unique:profils,artist_email,' . $profil->id,
+            'current_country' => 'sometimes|required|exists:countries,country_id',
+            'artist_phone_number' => 'sometimes|required',
+            'artist_password' => 'sometimes|required|string|min:6|confirmed',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $profil->update($request->only([
+            'artist_firstname',
+            'artist_lastname',
+            'artist_username',
+            'artist_birthday',
+            'artist_email',
+            'current_country',
+            'artist_phone_number',
+        ]));
+
+        if ($request->filled('artist_password')) {
+            $profil->artist_password = Hash::make($request->artist_password);
+            $profil->save();
+        }
+
+        return response()->json(['profil' => $profil], 200);
+    }
+
+
     public function index(Request $request)
     {
         $token = $request->header('Authorization');
@@ -122,6 +172,61 @@ class ProfilController extends Controller
         } else {
             return response()->json(['error' => 'Unauthorized', $profil], 401);
         }
+    }
+
+    public function modifyPassword(Request $request)
+    {
+        $request->validate([
+            'old_password' => 'required|string',
+            'new_password' => 'required|string|min:6',
+            'confirm_password' => 'required|string|same:new_password',
+        ]);
+
+        $token = $request->header('Authorization');
+
+        if (!$token) {
+            return response()->json(['error' => 'Token not provided'], 401);
+        }
+
+        $token = str_replace('Bearer ', '', $token);
+        $profil = Profil::where('api_token', $token)->first();
+
+        if (!$profil) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        // Verify old password
+        if (!Hash::check($request->old_password, $profil->artist_password)) {
+            return response()->json(['error' => 'Invalid old password'], 400);
+        }
+
+        // Update password
+        $profil->update([
+            'artist_password' => Hash::make($request->new_password),
+        ]);
+
+        return response()->json(['message' => 'Password updated successfully'], 200);
+    }
+
+    public function deleteAccount(Request $request)
+    {
+        $token = $request->header('Authorization');
+
+        if (!$token) {
+            return response()->json(['error' => 'Token not provided'], 401);
+        }
+
+        $token = str_replace('Bearer ', '', $token);
+        $profil = Profil::where('api_token', $token)->first();
+
+        if (!$profil) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        // Delete the profil
+        $profil->delete();
+
+        return response()->json(['message' => 'Account deleted successfully'], 200);
     }
 
     //CRUD operations on Profil
