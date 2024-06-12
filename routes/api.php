@@ -34,14 +34,18 @@ Route::controller(AdministrationController::class)->group(function () {
     Route::post('/add-category',  'create_category');
     Route::post('/add-subcategory',  'create_subcategory');
     Route::post('/add-status',  'create_status');
+
     Route::post('/add-message_type',  'create_message_type');
     Route::post('/add-admin_role',  'create_admin_role');
+
     Route::post('/add-admin',  'create_admin');
     Route::post('/add-blog_post',  'create_blog_post');
     Route::post('/add-chat_message',  'create_chat_message');
     Route::post('/add-note',  'create_note');
-    Route::post('/add-payment_method',  'create_payment_method');
     Route::post('/add-informing_message',  'create_informing_message');
+
+    // Route::post('/add-payment_method',  'create_payment_method');
+
     //Read
     Route::get('/continents',  'read_continents');
     Route::get('/countries',  'read_countries');
@@ -49,18 +53,26 @@ Route::controller(AdministrationController::class)->group(function () {
     Route::get('/categories',  'read_categories');
     Route::get('/subcategories',  'read_subcategories');
     Route::get('/statuses',  'read_statuses');
-    Route::get('/message_types',  'read_message_types');
-    Route::get('/admins_roles',  'read_admins_roles');
+
+    // Route::get('/message_types',  'read_message_types');
+
+    // Route::get('/admins_roles',  'read_admins_roles');
     Route::get('/admins',  'read_admins');
+
     Route::get('/blog_posts',  'read_blog_posts');
+
     Route::get('/artists_profils',  'read_artists_profils');
     Route::get('/artworks',  'read_artworks');
     Route::get('/clients',  'read_clients');
+
     Route::get('/clients_messages',  'read_clients_messages');
+
     Route::get('/visitors',  'read_visitors');
+
     Route::get('/chat_messages',  'read_chat_messages');
     Route::get('/notes',  'read_notes');
-    Route::get('/payment_methods',  'read_payment_methods');
+
+    // Route::get('/payment_methods',  'read_payment_methods');
     Route::get('/transactions',  'read_transactions');
     Route::get('/informing_messages',  'read_informing_messages');
     //Update
@@ -70,16 +82,19 @@ Route::controller(AdministrationController::class)->group(function () {
     Route::put('/categories/{id}',  'update_category');
     Route::put('/subcategories/{id}',  'update_subcategory');
     Route::put('/statuses/{id}',  'update_status');
-    Route::put('/message_types/{id}',  'update_message_type');
-    Route::put('/admins_roles/{id}',  'update_admin_role');
+
+    // Route::put('/message_types/{id}',  'update_message_type');
+    // Route::put('/admins_roles/{id}',  'update_admin_role');
+
     Route::put('/admins/{id}',  'update_admin');
+
     Route::put('/blog_posts/{id}',  'update_blog_post');
     Route::put('/artists_profils/{id}',  'update_artist_profil');
     Route::put('/clients/{id}',  'update_client');
     Route::put('/chat_messages/{id}',  'update_chat_message');
     Route::put('/notes/{id}',  'update_note');
-    Route::put('/payment_methods/{id}',  'update_payment_method');
-    Route::put('/informing_messages/{id}',  'update_informing_message');
+    // Route::put('/payment_methods/{id}',  'update_payment_method');
+    // Route::put('/informing_messages/{id}',  'update_informing_message');
     //Delete
     Route::delete('/continents/{id}',  'delete_continent');
     Route::delete('/countries/{id}',  'delete_country');
@@ -87,6 +102,7 @@ Route::controller(AdministrationController::class)->group(function () {
     Route::delete('/categories/{id}',  'delete_category');
     Route::delete('/subcategories/{id}',  'delete_subcategory');
     Route::delete('/statuses/{id}',  'delete_status');
+
     Route::delete('/message_types/{id}',  'delete_message_type');
     Route::delete('/admin_roles/{id}',  'delete_admin_role');
     Route::delete('/admins/{id}',  'delete_admin');
@@ -119,7 +135,7 @@ Route::controller(AdministrationController::class)->group(function () {
     Route::get('/chat_messages/{id}',  'show_chat_message');
     Route::get('/notes/{id}',  'show_note');
     Route::get('/informing_messages/{id}',  'show_informing_message');
-    Route::get('/visitors/{id}',  'show_visitor');//visitors messages are included
+    Route::get('/visitors/{id}',  'show_visitor'); //visitors messages are included
     Route::get('/transactions/{id}',  'show_transaction');
 
     //Authentification functions
@@ -182,6 +198,7 @@ Route::controller(VisitorController::class)->group(function () {
 //     return $request->user();
 // });
 
+//Authentification
 //Admin
 Route::post('/admin-login', [AdministrationController::class, 'login']);
 // Route::post('/admin-register', [AdministrationController::class, 'register']);
@@ -197,8 +214,9 @@ Route::post('/artist-register', [ProfilController::class, 'register']);
 Route::middleware('profil.auth.token')->group(function () {
     Route::get('/artist-profile', [ProfilController::class, 'index']);
     Route::put('/update-artist-profile', [ProfilController::class, 'update']);
-    Route::put('/modify-artist-password', [ProfilController::class, 'modifyPassword']); // Add route for modifying password
-    Route::delete('/delete-artist-account', [ProfilController::class, 'deleteAccount']); // Add route for deleting account
+    Route::put('/modify-artist-password', [ProfilController::class, 'modifyPassword']);
+    Route::delete('/delete-artist-account', [ProfilController::class, 'deleteAccount']);
+    Route::get('/artist-artworks', [ProfilController::class, 'profil_artworks']);
 });
 
 //Client
@@ -207,4 +225,8 @@ Route::post('/client-register', [ClientController::class, 'register']);
 
 Route::middleware('client.auth.token')->group(function () {
     Route::get('/client-profile', [ClientController::class, 'index']);
+    Route::put('/update-client-profile', [ClientController::class, 'update']);
+    Route::put('/modify-client-password', [ClientController::class, 'modifyPassword']);
+    Route::delete('/delete-client-account', [ClientController::class, 'deleteAccount']);
 });
+

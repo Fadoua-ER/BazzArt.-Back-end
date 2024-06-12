@@ -15,23 +15,24 @@ return new class extends Migration
             $table->id();
             $table->string('client_firstname');
             $table->string('client_lastname');
-            $table->date('client_birthday');
+            $table->date('client_birthday')->nullable();
             $table->string('client_email')->unique();
             $table->string('client_password');
-            $table->string('client_adresse');
+            $table->string('client_adresse')->nullable();
             $table->string('client_picture')->nullable();
-            $table->unsignedBigInteger('country');
+            $table->unsignedBigInteger('country')->nullable();
             $table->foreign('country')
                 ->references('country_id')
                 ->on('countries')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->integer('client_phone_code');
+            $table->integer('client_phone_code')->nullable();
             $table->bigInteger('client_phone_number')->length(10);
             $table->string('api_token');
             $table->rememberToken();
             $table->timestamps();
         });
+
     }
 
     /**

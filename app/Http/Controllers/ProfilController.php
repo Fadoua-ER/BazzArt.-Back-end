@@ -128,6 +128,7 @@ class ProfilController extends Controller
             'artist_username' => 'sometimes|required|string|unique:profils,artist_username,' . $profil->id,
             'artist_birthday' => 'sometimes|required|date',
             'artist_email' => 'sometimes|required|email|unique:profils,artist_email,' . $profil->id,
+            // 'artist_picture' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
             'current_country' => 'sometimes|required|exists:countries,country_id',
             'artist_phone_number' => 'sometimes|required',
             'artist_password' => 'sometimes|required|string|min:6|confirmed',
@@ -195,18 +196,36 @@ class ProfilController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        // Verify old password
         if (!Hash::check($request->old_password, $profil->artist_password)) {
             return response()->json(['error' => 'Invalid old password'], 400);
         }
 
-        // Update password
         $profil->update([
             'artist_password' => Hash::make($request->new_password),
         ]);
 
         return response()->json(['message' => 'Password updated successfully'], 200);
     }
+
+    // public function deleteAccount(Request $request)
+    // {
+    //     $token = $request->header('Authorization');
+
+    //     if (!$token) {
+    //         return response()->json(['error' => 'Token not provided'], 401);
+    //     }
+
+    //     $token = str_replace('Bearer ', '', $token);
+    //     $profil = Profil::where('api_token', $token)->first();
+
+    //     if (!$profil) {
+    //         return response()->json(['error' => 'Unauthorized'], 401);
+    //     }
+
+    //     $profil->delete();
+
+    //     return response()->json(['message' => 'Account deleted successfully'], 200);
+    // }
 
     public function deleteAccount(Request $request)
     {
@@ -223,7 +242,12 @@ class ProfilController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        // Delete the profil
+        $deletePassword = $request->input('password');
+
+        if (!Hash::check($deletePassword, $profil->artist_password)) {
+            return response()->json(['error' => 'Incorrect password'], 401);
+        }
+
         $profil->delete();
 
         return response()->json(['message' => 'Account deleted successfully'], 200);
@@ -232,11 +256,61 @@ class ProfilController extends Controller
     //CRUD operations on Profil
     //read,update and delete are in the AdministrationController
     //CRUD operations on the artworks
+    // public function create_artwork(Request $request)
+    // {
+    //     Artwork::create($request->all());
+    //     return response()->json("The artwork is added successfully !",200);
+    // }
+
     public function create_artwork(Request $request)
     {
-        Artwork::create($request->all());
-        return response()->json("The artwork is added successfully !",200);
+        $data = $request->validate([
+            'artwork_code' => 'required|string',
+            'artwork_name' => 'required|string',
+            'artwork_description' => 'required|string',
+            'picture' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'creation_date' => 'required|date',
+            'price' => 'required|integer',
+            'owner' => 'required|exists:profils,id',
+            'category' => 'required|exists:categories,category_id',
+            'location_country' => 'required|exists:countries,country_id',
+            'location_city' => 'required|exists:cities,city_id',
+            'artwork_status' => 'required|exists:statuses,status_id',
+        ]);
+
+        if ($request->hasFile('picture')) {
+            $imagePath = $request->file('picture')->store('artworks', 'public');
+            $data['picture'] = $imagePath;
+        }
+
+        Artwork::create($data);
+
+        return response()->json("The artwork is added successfully!", 200);
     }
+
+    public function profil_artworks(Request $request)
+    {
+        $token = $request->header('Authorization');
+
+        if (!$token) {
+            return response()->json(['error' => 'Token not provided'], 401);
+        }
+
+        $token = str_replace('Bearer ', '', $token);
+        $profil = Profil::where('api_token', $token)->first();
+
+        if (!$profil) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        $artworks = Artwork::where('owner', $profil->id)->get();
+
+        return response()->json($artworks);
+    }
+
+
+
+
     //read and delete are in the AdministrationController
     public function update_artwork(Request $request, $id)
     {

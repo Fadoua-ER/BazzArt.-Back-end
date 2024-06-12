@@ -55,6 +55,59 @@ class ClientController extends Controller
         }
     }
 
+    public function update(Request $request)
+    {
+        $token = $request->header('Authorization');
+
+        if (!$token) {
+            return response()->json(['error' => 'Token not provided'], 401);
+        }
+
+        $token = str_replace('Bearer ', '', $token);
+        $client = Client::where('api_token', $token)->first();
+
+        if (!$client) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'client_firstname' => 'sometimes|required|string',
+            'client_lastname' => 'sometimes|required|string',
+            'client_birthday' => 'sometimes|date',
+            'client_email' => 'sometimes|required|email|unique:clients,client_email,'. $client->id,
+            'client_adresse' => 'sometimes|string',
+            // 'client_picture' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'country' => 'sometimes|exists:countries,country_id',
+            // 'client_phone_code' => 'sometimes',
+            'client_phone_number' => 'sometimes',
+            'client_password' => 'sometimes|required|string|min:6|confirmed',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $client->update($request->only([
+            'client_firstname',
+            'client_lastname',
+            'client_birthday',
+            'client_email',
+            'client_adresse',
+            // 'client_phone_code',
+            'client_phone_number',
+            'country',
+        ]));
+
+        if ($request->filled('client_password')) {
+            $client->client_password = Hash::make($request->client_password);
+            $client->save();
+        }
+
+        return response()->json(['client' => $client], 200);
+    }
+
+
+
     public function index(Request $request)
     {
         $token = $request->header('Authorization');
@@ -73,9 +126,64 @@ class ClientController extends Controller
         }
     }
 
-    public function client_logout(){
+    public function modifyPassword(Request $request)
+    {
+        $request->validate([
+            'old_password' => 'required|string',
+            'new_password' => 'required|string|min:6',
+            'confirm_password' => 'required|string|same:new_password',
+        ]);
 
+        $token = $request->header('Authorization');
+
+        if (!$token) {
+            return response()->json(['error' => 'Token not provided'], 401);
+        }
+
+        $token = str_replace('Bearer ', '', $token);
+        $client = Client::where('api_token', $token)->first();
+
+        if (!$client) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        if (!Hash::check($request->old_password, $client->client_password)) {
+            return response()->json(['error' => 'Invalid old password'], 400);
+        }
+
+        $client->update([
+            'client_password' => Hash::make($request->new_password),
+        ]);
+
+        return response()->json(['message' => 'Password updated successfully'], 200);
     }
+
+    public function deleteAccount(Request $request)
+    {
+        $token = $request->header('Authorization');
+
+        if (!$token) {
+            return response()->json(['error' => 'Token not provided'], 401);
+        }
+
+        $token = str_replace('Bearer ', '', $token);
+        $client = Client::where('api_token', $token)->first();
+
+        if (!$client) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        $deletePassword = $request->input('password');
+
+        if (!Hash::check($deletePassword, $client->client_password)) {
+            return response()->json(['error' => 'Incorrect password'], 401);
+        }
+
+        $client->delete();
+
+        return response()->json(['message' => 'Account deleted successfully'], 200);
+    }
+
     //CRUD operations on Client message
     public function create_client_message()
     {

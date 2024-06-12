@@ -589,9 +589,18 @@ class AdministrationController extends Controller
     //CRUD operations on Administrators
     /*public function create_admin(Request $request)
     {
-        $request->password->bcrypt();
-        Administrator::create($request->all());
-        return response()->json("The admin is added successfully !",200);
+        $request->validate([
+            '' => '',
+            '' => '',
+            '' => '',
+        ]);
+        Administrator::create([
+            '' => $request-> ,
+            '' => $request-> Hash::make($request-> ),
+            'api_token' => Str::random(60)
+        ]);
+
+        return response()->json(["admin" => $admin], 201);
     }*/
     public function admin(string $id)
     {
