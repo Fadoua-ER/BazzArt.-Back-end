@@ -138,10 +138,6 @@ Route::controller(AdministrationController::class)->group(function () {
     Route::get('/visitors/{id}',  'show_visitor'); //visitors messages are included
     Route::get('/transactions/{id}',  'show_transaction');
 
-    //Authentification functions
-    Route::post('/admin-login',  'admin_login');
-    Route::get('/admin',  'admin');
-    Route::post('/admin-logout',  'admin_logout');
 });
 
 //Artist's Actions
@@ -153,11 +149,6 @@ Route::controller(ProfilController::class)->group(function () {
     //Update
     Route::put('/artworks/{id}', 'update_artwork');
     //Delete
-    //Authentification functions
-    Route::post('/artist-registration', 'artist_registration');
-    Route::post('/artist-login', 'artist_login');
-    Route::get('/artist', 'artist');
-    Route::post('/artist-logout', 'artist_logout');
 });
 
 //Client's Actions
@@ -165,22 +156,15 @@ Route::controller(ClientController::class)->group(function () {
     //CRUD Functions
     //Create
     Route::post('/add-client-comment', 'create_client_message');
-    Route::post('/add-cart', 'create_cart');
     Route::post('/add-order', 'create_order');
     //Read
     Route::get('/carts', 'read_carts');
     //Update
     Route::put('/client-messages/{id}', 'update_client_message');
-    Route::put('/carts/{id}', 'update_client_message');
     //Delete
-    Route::delete('/carts/{id}', 'delete_cart');
+    Route::delete('transactions/{id}', 'delete_order');
     //Show
-    Route::get('/carts/{id}', 'show_cart');
-    //Authentification functions
-    Route::post('/client-registration', 'client_registration');
-    Route::post('/client-login', 'client_login');
-    Route::get('/client', 'client');
-    Route::post('/client-logout', 'client_logout');
+
 });
 
 //Visitor's Actions
@@ -228,5 +212,6 @@ Route::middleware('client.auth.token')->group(function () {
     Route::put('/update-client-profile', [ClientController::class, 'update']);
     Route::put('/modify-client-password', [ClientController::class, 'modifyPassword']);
     Route::delete('/delete-client-account', [ClientController::class, 'deleteAccount']);
+    Route::get('/client-transactions', [ClientController::class, 'read_orders']);
 });
 

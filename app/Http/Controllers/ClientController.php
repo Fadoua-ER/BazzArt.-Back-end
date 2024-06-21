@@ -201,53 +201,84 @@ class ClientController extends Controller
     //CRUD operations on Order(Transactions)
     public function create_order(Request $request)
     {
-        Transaction::create($request->all());
-        return response()->json("The artwork is added successfully to ypur cart !",200);
-    }
-    public function read_order()
-    {
+        $data = $request->validate([
+            'transaction_code' => 'required',
+            'transaction_client' => 'required|exists:clients,id',
+            'transaction_artist' => 'required|exists:profils,id',
+            'transaction_artwork' => 'required|exists:artworks,artwork_id',
+        ]);
 
-    }
-    public function update_order()
-    {
+        Transaction::create($data);
 
+        return response()->json("The artwork is collected successfully to ypur cart !",200);
     }
-    public function delete_order()
+    public function read_orders(Request $request)
     {
+        $token = $request->header('Authorization');
 
+        if (!$token) {
+            return response()->json(['error' => 'Token not provided'], 401);
+        }
+
+        $token = str_replace('Bearer ', '', $token);
+        $client = Client::where('api_token', $token)->first();
+
+        if (!$client) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        $transactions = Transaction::where('transaction_client', $client->id)->get();
+
+        return response()->json($transactions);
     }
-    //CRUD operations on Cart of orders
-    public function show_cart(string $id)
+    // public function update_order(string $id)
+    // {
+
+    // }
+    public function delete_order(string $id)
     {
-        $cart= Cart::findorFail($id);
-        return $cart;
-    }
-    public function create_cart(Request $request)
-    {
-        Cart::create($request->all());
-        return response()->json("The cart is added successfully !",200);
-    }
-    public function read_carts()
-    {
-        $carts = Cart::all();
-        return $carts;
-    }
-    public function update_cart(Request $request, $id)
-    {
-        $carts =Cart::find($id);
-        $carts->update($request->all());
-        return response()->json(['message'=>'Cart modified successfully','modified_item'=>$carts],200);
-    }
-    public function delete_cart(string $id)
-    {
-        $resultats=Cart::destroy($id);
+        $resultats=Transaction::destroy($id);
         if($resultats>0)
         {
-            return response()->json("The cart $id is deleted",200);
+            return response()->json("The transaction $id is deleted",200);
         }
         else
         {
-            return response()->json("Error the cart $id was not deleted !",400);
+            return response()->json("Error the transaction $id was not deleted !",400);
         }
     }
+    //CRUD operations on Cart of orders
+    // public function show_cart(string $id)
+    // {
+    //     $cart= Cart::findorFail($id);
+    //     return $cart;
+    // }
+    // public function create_cart(Request $request)
+    // {
+    //     Cart::create($request->all());
+    //     return response()->json("The cart is added successfully !",200);
+    // }
+    // public function read_carts()
+    // {
+    //     $carts = Cart::all();
+    //     return $carts;
+    // }
+    // public function update_cart(Request $request, $id)
+    // {
+    //     $carts =Cart::find($id);
+    //     $carts->update($request->all());
+    //     return response()->json(['message'=>'Cart modified successfully','modified_item'=>$carts],200);
+    // }
+    // public function delete_cart(string $id)
+    // {
+    //     $resultats=Cart::destroy($id);
+    //     if($resultats>0)
+    //     {
+    //         return response()->json("The cart $id is deleted",200);
+    //     }
+    //     else
+    //     {
+    //         return response()->json("Error the cart $id was not deleted !",400);
+    //     }
+    // }
 }

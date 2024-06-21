@@ -44,33 +44,6 @@ class ProfilController extends Controller
         return response()->json(['profil' => $profil], 201);
     }
 
-    // public function register(Request $request)
-    // {
-    //     $request->validate([
-    //         'artist_firstname' => 'required|string',
-    //         'artist_lastname' => 'required|string',
-    //         'artist_username' => 'required|string|unique:profils,artist_username',
-    //         'artist_birthday' => 'required|date',
-    //         'artist_email' => 'required|email|unique:profils,artist_email',
-    //         'current_country' => 'required|exists:countries,country_id',
-    //         'artist_phone_number' => 'required',
-    //         'password' => 'required|string|min:6|confirmed',
-    //     ]);
-
-    //     $profil = Profil::create([
-    //         'artist_firstname' => $request->artist_firstname,
-    //         'artist_lastname' => $request->artist_lastname,
-    //         'artist_username' => $request->artist_username,
-    //         'artist_birthday' => $request->artist_birthday,
-    //         'artist_email' => $request->artist_email,
-    //         'current_country' => $request->current_country,
-    //         'artist_phone_number' => $request->artist_phone_number,
-    //         'artist_password' => Hash::make($request->artist_password),
-    //         'api_token' => Str::random(60)
-    //     ]);
-
-    //     return response()->json(['profil' => $profil, 'Test' => Hash::make($request->artist_password)], 201);
-    // }
 
     public function login(Request $request)
     {
@@ -128,7 +101,8 @@ class ProfilController extends Controller
             'artist_username' => 'sometimes|required|string|unique:profils,artist_username,' . $profil->id,
             'artist_birthday' => 'sometimes|required|date',
             'artist_email' => 'sometimes|required|email|unique:profils,artist_email,' . $profil->id,
-            // 'artist_picture' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'biography' => 'sometimes|nullable',
+            'artist_picture' => 'sometimes|nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'current_country' => 'sometimes|required|exists:countries,country_id',
             'artist_phone_number' => 'sometimes|required',
             'artist_password' => 'sometimes|required|string|min:6|confirmed',
@@ -155,7 +129,6 @@ class ProfilController extends Controller
 
         return response()->json(['profil' => $profil], 200);
     }
-
 
     public function index(Request $request)
     {
