@@ -201,6 +201,7 @@ Route::middleware('profil.auth.token')->group(function () {
     Route::put('/modify-artist-password', [ProfilController::class, 'modifyPassword']);
     Route::delete('/delete-artist-account', [ProfilController::class, 'deleteAccount']);
     Route::get('/artist-artworks', [ProfilController::class, 'profil_artworks']);
+    Route::get('/clients-orders', [ProfilController::class, 'read_orders']);
 });
 
 //Client

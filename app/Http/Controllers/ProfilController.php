@@ -12,6 +12,8 @@ use Illuminate\Support\Str;
 
 use App\Models\Artwork;
 use App\Models\Profil;
+use App\Models\Transaction;
+
 
 class ProfilController extends Controller
 {
@@ -101,7 +103,7 @@ class ProfilController extends Controller
             'artist_username' => 'sometimes|required|string|unique:profils,artist_username,' . $profil->id,
             'artist_birthday' => 'sometimes|required|date',
             'artist_email' => 'sometimes|required|email|unique:profils,artist_email,' . $profil->id,
-            'biography' => 'sometimes|nullable',
+            'biography' => 'sometimes|required|string',
             'artist_picture' => 'sometimes|nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'current_country' => 'sometimes|required|exists:countries,country_id',
             'artist_phone_number' => 'sometimes|required',
@@ -112,6 +114,7 @@ class ProfilController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
+
         $profil->update($request->only([
             'artist_firstname',
             'artist_lastname',
@@ -120,6 +123,7 @@ class ProfilController extends Controller
             'artist_email',
             'current_country',
             'artist_phone_number',
+            'biography',
         ]));
 
         if ($request->filled('artist_password')) {
@@ -295,4 +299,25 @@ class ProfilController extends Controller
     //They are in the AdministrationController
     //CRUD operations on Orders
     //read, update are in the ClientController
+
+
+    public function read_orders(Request $request)
+    {
+        $token = $request->header('Authorization');
+
+        if (!$token) {
+            return response()->json(['error' => 'Token not provided'], 401);
+        }
+
+        $token = str_replace('Bearer ', '', $token);
+        $profil = Profil::where('api_token', $token)->first();
+
+        if (!$profil) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        $transactions = Transaction::where('transaction_artist', $profil->id)->get();
+
+        return response()->json($transactions);
+    }
 }

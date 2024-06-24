@@ -403,7 +403,19 @@ class AdministrationController extends Controller
     }
     public function create_blog_post(Request $request)
     {
-        BlogPost::create($request->all());
+        $data = $request->validate([
+            'text_content' => 'required',
+            'file' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'poster' => 'required|exists:administrators,id',
+        ]);
+
+        if ($request->hasFile('file')) {
+            $imagePath = $request->file('file')->store('posts', 'public');
+            $data['file'] = $imagePath;
+        }
+
+        BlogPost::create($data);
+
         return response()->json("The post is added successfully !",200);
     }
     public function read_blog_posts()
